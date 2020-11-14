@@ -1,4 +1,4 @@
-class < ActiveRecord::Base
-    belongs_to :user
+# class < ActiveRecord::Base
+#     belongs_to :user
 
-end 
+# end 
