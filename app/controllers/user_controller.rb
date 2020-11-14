@@ -1,15 +1,18 @@
 class UserController < ApplicationController
 
-    get '/signup' do
-        if logged_in?
-            redirect "/habits"
-        else
+    get '/users/signup' do
+        # if logged_in?
+        #     redirect "/habits"
+        # else
             erb :'users/create_user'
-        end
+        # end
     end
     
-    post '/signup' do
-
+    post '/users' do
+        @user = User.new(email: params[:email], password: params[:password])
+        @user.save
+        session[:user_id] = @user.id
+        redirect "/users/#{@user.id}"
     end
     
     get '/login' do
@@ -22,6 +25,10 @@ class UserController < ApplicationController
         #redirect to user account
         #error message if fail to login
         #redirect to login
+    end
+
+    get '/users/:id' do
+
     end
 
 
