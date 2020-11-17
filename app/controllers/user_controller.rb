@@ -1,6 +1,6 @@
 class UserController < ApplicationController
 
-    get '/users/signup' do
+    get '/signup' do
         # if logged_in?
         #     redirect "/habits"
         # else
@@ -8,7 +8,7 @@ class UserController < ApplicationController
         # end
     end
     
-    post '/users' do
+    post '/signup' do
         @user = User.new(email: params[:email], password: params[:password])
         @user.save
         session[:user_id] = @user.id
@@ -27,12 +27,7 @@ class UserController < ApplicationController
         #redirect to login
     end
 
-    get '/users/:id' do
+    get '/logout' do
 
     end
-
-
-
-
-
 end
