@@ -1,1 +1,25 @@
-#some div class stuff
+<h1>Habit Details</h1>
+
+<br>
+
+<h2><%= @habit.name %></h2>
+
+<br>
+
+<p><b>Date Created:</b> <%= @habit.date %></p>
+<p><b>Description:</b> <%= @habit.description %></p>
+
+<br>
+
+<a href="/habits/<%= @habit.id %>/edit">Edit Habit</a>
+
+<br>
+
+<form action="/habits/<%= @habit.id %>/delete" method="POST">
+    <input type="hidden" id="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Habit">
+</form>
+
+<br>
+
+<a href="/habits">View All Habits</a>
