@@ -2,5 +2,5 @@ class User < ActiveRecord::Base
     has_secure_password
     has_many :habits
 
-    #validate
+    validates :email, presence: true
 end

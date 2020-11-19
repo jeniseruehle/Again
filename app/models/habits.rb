@@ -1,5 +1,4 @@
 class < ActiveRecord::Base
     belongs_to :user
-
-    #validate
+    validates :name, :date, :description, presence: true
 end 

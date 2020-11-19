@@ -1,33 +1,51 @@
 class UserController < ApplicationController
 
     get '/signup' do
-        # if logged_in?
-        #     redirect "/habits"
-        # else
+        if !session[:user_id]
             erb :'users/create_user'
-        # end
+        else
+            redirect '/habits'
+        end
     end
     
     post '/signup' do
         @user = User.new(email: params[:email], password: params[:password])
-        @user.save
-        session[:user_id] = @user.id
-        redirect "/users/#{@user.id}"
+        if !@user.save
+            #error msg
+            erb :'users/create_user'
+        else
+            session[:user_id] = @user.id
+            redirect '/habits'
+        end
     end
     
     get '/login' do
-        erb :login
+        if !session[:user_id]
+            erb :login
+        else
+            redirect '/habits'
+        end
     end
 
     post '/login' do
-        #authenticate my user
-        #log in
-        #redirect to user account
-        #error message if fail to login
-        #redirect to login
+        @user = User.find_by(email: params[:email])
+        if @user && @user.authenticate(params[:password])
+            session[:user_id] = @user.id
+            redirect '/habits'
+        else
+            #error msg
+            erb :login
+        end
     end
 
     get '/logout' do
-
+        if logged_in?
+            @user = current_user
+            @user = nil
+            session.destroy
+            redirect '/'
+        else
+            redirect '/'
+        end
     end
 end
