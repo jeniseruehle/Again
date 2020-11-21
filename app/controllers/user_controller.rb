@@ -21,7 +21,7 @@ class UserController < ApplicationController
     
     get '/login' do
         if !session[:user_id]
-            erb :login
+            erb :'users/login'
         else
             redirect '/habits'
         end
@@ -34,7 +34,7 @@ class UserController < ApplicationController
             redirect '/habits'
         else
             #error msg
-            erb :login
+            erb :'users/login'
         end
     end
 
