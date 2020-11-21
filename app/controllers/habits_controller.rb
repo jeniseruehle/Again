@@ -27,6 +27,7 @@ class HabitsController < ApplicationController
             else
                 redirect '/habits'
             end
+        end
     end 
 
     get '/habits/:id' do
