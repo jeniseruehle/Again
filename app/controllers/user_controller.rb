@@ -11,7 +11,7 @@ class UserController < ApplicationController
     post '/signup' do
         @user = User.create(email: params[:email], password: params[:password])
         if !@user.save
-            flash[:error] = "Invalid input, please try again: #{post.errors.full_messages.to_sentence}"
+            flash[:error] = "Invalid input, please try again."
             erb :'/users/create_user'
         else
             session[:user_id] = @user.id
@@ -33,7 +33,7 @@ class UserController < ApplicationController
             session[:user_id] = @user.id
             redirect '/habits'
         else
-            flash[:error] = "Either email or password incorrect: #{post.errors.full_messages.to_sentence}"
+            flash[:error] = "Either email or password incorrect, please try again."
             redirect '/login'
         end
     end
