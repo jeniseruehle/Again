@@ -2,8 +2,8 @@ class HabitsController < ApplicationController
 
     get '/habits' do
         if logged_in?
-            @habits = current_user.habits
-            erb :'habits/habits'
+            @habits = Habits.all
+            erb :"/habits/habits"
         else
             redirect '/login'
         end
@@ -12,17 +12,18 @@ class HabitsController < ApplicationController
     get '/habits/new' do
         if logged_in?
             @current_user
-            erb :'habits/create_habit'
+            erb :"/habits/create_habit"
         else
+            flash[:error] = "You must log in to create a new habit."
             redirect '/login'
         end
     end
 
     post '/habits' do
         if logged_in?
-            @habit = current_user.habits.build(params)
+            @habit = Habit.create(params)
             if !@habit.save
-                #error message
+                flash[:error] = "Please fill out all fields to create your habit."
                 erb :'/habits/create_habit'
             else
                 redirect '/habits'
@@ -33,7 +34,7 @@ class HabitsController < ApplicationController
     get '/habits/:id' do
         @habit = Habit.find(params[:id])
         if logged_in? && @habit.user == current_user
-            erb :'habits/show_habit'
+            erb :'/habits/show_habit'
         else
             redirect '/login'
         end
@@ -44,8 +45,9 @@ class HabitsController < ApplicationController
         if logged_in? && @habit.user == current_user
             @habit = Habit.find(params[:id])
             @user = User.find(session[:user_id])
-            erb :'habits/edit_habit'
+            erb :'/habits/edit_habit'
         else
+            flash[:error] = "Your are not authorized to edit this habit."
             redirect '/login'
         end
     end
@@ -56,7 +58,7 @@ class HabitsController < ApplicationController
         @habit.date = params[:date]
         @habit.description = params[:description]
         if !@habit.save
-            #error msg
+            flash[:error] = "Please fill out all fields to update your habit."
             erb :'/habits/edit_habit'
         else
             redirect '/habits/#{@habit.id}'

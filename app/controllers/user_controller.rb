@@ -2,17 +2,17 @@ class UserController < ApplicationController
 
     get '/signup' do
         if !session[:user_id]
-            erb :'users/create_user'
+            erb :'/users/create_user'
         else
             redirect '/habits'
         end
     end
     
     post '/signup' do
-        @user = User.new(email: params[:email], password: params[:password])
+        @user = User.create(email: params[:email], password: params[:password])
         if !@user.save
-            #error msg
-            erb :'users/create_user'
+            flash[:error] = "Invalid input, please try again: #{post.errors.full_messages.to_sentence}"
+            erb :'/users/create_user'
         else
             session[:user_id] = @user.id
             redirect '/habits'
@@ -33,16 +33,16 @@ class UserController < ApplicationController
             session[:user_id] = @user.id
             redirect '/habits'
         else
-            #error msg
-            erb :'users/login'
+            flash[:error] = "Either email or password incorrect: #{post.errors.full_messages.to_sentence}"
+            redirect '/login'
         end
     end
 
     get '/logout' do
         if logged_in?
-            @user = current_user
-            @user = nil
-            session.destroy
+            # @user = current_user
+            # @user = nil
+            session.clear
             redirect '/'
         else
             redirect '/'
