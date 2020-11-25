@@ -1,14 +1,16 @@
 class HabitsController < ApplicationController
 
+    #INDEX
     get '/habits' do
         if logged_in?
-            @habits = Habits.all
+            @habits = Habit.all
             erb :"/habits/habits"
         else
             redirect '/login'
         end
     end
 
+    #CREATE
     get '/habits/new' do
         if logged_in?
             # @current_user
@@ -19,10 +21,10 @@ class HabitsController < ApplicationController
         end
     end
 
-    # get '/habits/:id' do
-    #     @habit = Habits.find(params[:id])
-    #     erb :'/habits/show_habit'
-    # end
+    get '/habits/:id' do
+        @habit = Habits.find(params[:id])
+        erb :'/habits/show_habit'
+    end
 
     post '/habits' do
         @habit = Habits.create(params)
@@ -34,6 +36,7 @@ class HabitsController < ApplicationController
         end
     end 
 
+    #READ
     get '/habits/:id' do
         @habit = Habit.find(params[:id])
         if logged_in? && @habit.user == current_user
@@ -43,6 +46,7 @@ class HabitsController < ApplicationController
         end
     end
 
+    #UPDATE
     get '/habits/:id/edit' do
         @habit = Habit.find(params[:id])
         if logged_in? && @habit.user == current_user
@@ -68,6 +72,7 @@ class HabitsController < ApplicationController
         end
     end
 
+    #DELETE
     delete '/habits/:id/delete' do
         @habit = Habit.find(params[:id])
         if logged_in? && @habit.user == current_user
