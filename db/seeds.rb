@@ -1,8 +1,8 @@
 users = [
-    {email: "moana@disneyprincess.com", password: "M0tunu1!"},
-    {email: "tiana@disneyprincess.com", password: "Th38ay0u"},
-    {email: "tinkerbell@disneyfairies.com", password: "91x1eH0ll0w"},
-    {email: "maleficent@disneyfairies.com", password: "!H0rn5"}
+    {username: "moana16", email: "moana@disneyprincess.com", password: "M0tunu1!"},
+    {username: "tiana09", email: "tiana@disneyprincess.com", password: "Th38ay0u"},
+    {username: "tink08", email: "tinkerbell@disneyfairies.com", password: "91x1eH0ll0w"},
+    {username: "evilqueen14", email: "maleficent@disneyfairies.com", password: "!H0rn5"}
 ]
 
 users.each do |user|
