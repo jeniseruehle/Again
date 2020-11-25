@@ -11,28 +11,26 @@ class HabitsController < ApplicationController
 
     get '/habits/new' do
         if logged_in?
-            @current_user
+            # @current_user
             erb :"/habits/create_habit"
         else
             flash[:error] = "You must log in to create a new habit."
-            redirect '/login'
+            redirect '/'
         end
     end
 
-    get '/habits/:id' do
-        @habit = Habits.find(params[:id])
-        erb :'/habits/show_habit'
-    end
+    # get '/habits/:id' do
+    #     @habit = Habits.find(params[:id])
+    #     erb :'/habits/show_habit'
+    # end
 
     post '/habits' do
-        if logged_in?
-            @habit = Habits.create(params)
-            if !@habit.save
-                flash[:error] = "Please fill out all fields to create your habit."
-                erb :'/habits/create_habit'
-            else
-                redirect '/habits'
-            end
+        @habit = Habits.create(params)
+        if @habit.save
+            redirect '/habits/#{habit.id}'
+        else
+            flash[:error] = "Please fill out all fields to create your habit."
+            redirect '/habits/create_habit'
         end
     end 
 
