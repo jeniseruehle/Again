@@ -19,9 +19,14 @@ class HabitsController < ApplicationController
         end
     end
 
+    get '/habits/:id' do
+        @habit = Habits.find(params[:id])
+        erb :'/habits/show_habit'
+    end
+
     post '/habits' do
         if logged_in?
-            @habit = Habit.create(params)
+            @habit = Habits.create(params)
             if !@habit.save
                 flash[:error] = "Please fill out all fields to create your habit."
                 erb :'/habits/create_habit'

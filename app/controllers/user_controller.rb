@@ -2,29 +2,30 @@ class UserController < ApplicationController
 
     get '/signup' do
         if !session[:user_id]
-            erb :'/users/create_user'
+            erb :'/users/signup'
         else
             redirect '/habits'
         end
     end
+
+    get '/users/:id' do
+        @user = User.find_by(id: params[:id])
+        erb :'/users/show'
+    end
     
-    post '/signup' do
-        @user = User.create(email: params[:email], password: params[:password])
+    post '/users' do
+        @user = User.create(params)
         if !@user.save
             flash[:error] = "Invalid input, please try again."
-            erb :'/users/create_user'
+            erb :'/users/signup'
         else
             session[:user_id] = @user.id
-            redirect '/habits'
+            redirect "/users/#{@user.id}"
         end
     end
     
     get '/login' do
-        if !session[:user_id]
-            erb :'/users/login'
-        else
-            redirect '/habits'
-        end
+        erb :login
     end
 
     post '/login' do
