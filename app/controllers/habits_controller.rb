@@ -21,15 +21,10 @@ class HabitsController < ApplicationController
         end
     end
 
-    get '/habits/:id' do
-        @habit = Habits.find(params[:id])
-        erb :'/habits/show_habit'
-    end
-
     post '/habits' do
-        @habit = Habits.create(params)
+        @habit = Habit.create(params)
         if @habit.save
-            redirect '/habits/#{habit.id}'
+            redirect '/habits'
         else
             flash[:error] = "Please fill out all fields to create your habit."
             redirect '/habits/create_habit'
@@ -38,11 +33,13 @@ class HabitsController < ApplicationController
 
     #READ
     get '/habits/:id' do
-        @habit = Habit.find(params[:id])
-        if logged_in? && @habit.user == current_user
-            erb :'/habits/show_habit'
-        else
+        if !logged_in?
             redirect '/login'
+        else
+        @habit = Habit.find(params[:id])
+            # if @habit.user == current_user
+                erb :'/habits/show_habit'
+            # end
         end
     end
 
