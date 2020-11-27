@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
     get '/login' do
         erb :'/users/login'
@@ -26,19 +26,12 @@ class UserController < ApplicationController
     
     post '/users' do
         @user = User.create(params)
-        if !@user.save
-            flash[:error] = "Invalid input, please try again."
-            erb :'/users/signup'
-        else
-            session[:user_id] = @user.id
-            redirect "/users/#{@user.id}"
-        end
+        session[:user_id] = @user.id
+        redirect "/users/#{@user.id}"
     end
 
     get '/logout' do
         if logged_in?
-            # @user = current_user
-            # @user = nil
             session.clear
             redirect '/'
         else

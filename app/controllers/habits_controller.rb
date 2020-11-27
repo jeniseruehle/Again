@@ -13,7 +13,6 @@ class HabitsController < ApplicationController
     #CREATE
     get '/habits/new' do
         if logged_in?
-            # @current_user
             erb :"/habits/create_habit"
         else
             flash[:error] = "You must log in to create a new habit."
@@ -24,7 +23,7 @@ class HabitsController < ApplicationController
     post '/habits' do
         @habit = Habit.create(params)
         if @habit.save
-            redirect '/habits'
+            redirect '/habits/#{habit.id}'
         else
             flash[:error] = "Please fill out all fields to create your habit."
             redirect '/habits/create_habit'
@@ -36,47 +35,32 @@ class HabitsController < ApplicationController
         if !logged_in?
             redirect '/login'
         else
-        @habit = Habit.find(params[:id])
-            # if @habit.user == current_user
-                erb :'/habits/show_habit'
-            # end
+            @habit = Habit.find(params[:id])
+            erb :'/habits/show_habit'
         end
     end
 
     #UPDATE
     get '/habits/:id/edit' do
         @habit = Habit.find(params[:id])
-        if logged_in? && @habit.user == current_user
-            @habit = Habit.find(params[:id])
-            @user = User.find(session[:user_id])
-            erb :'/habits/edit_habit'
-        else
+        if !permission?(@habit)
             flash[:error] = "Your are not authorized to edit this habit."
-            redirect '/login'
+            redirect '/habits'
+        else
+            erb :'/habits/edit_habit'
         end
     end
 
     patch '/habits/:id' do
         @habit = Habit.find(params[:id])
-        @habit.name = params[:name]
-        @habit.date = params[:date]
-        @habit.description = params[:description]
-        if !@habit.save
-            flash[:error] = "Please fill out all fields to update your habit."
-            erb :'/habits/edit_habit'
-        else
-            redirect '/habits/#{@habit.id}'
-        end
+        @habit.update(name: params[:name], date: params[:date], description: params[:description])
+        redirect '/habits/#{@habit.id}'
     end
 
     #DELETE
     delete '/habits/:id/delete' do
         @habit = Habit.find(params[:id])
-        if logged_in? && @habit.user == current_user
-            @habit.destroy
-            redirect '/habits'
-        else
-            redirect '/login'
-        end
+        @habit.destroy
+        redirect '/habits'
     end
 end

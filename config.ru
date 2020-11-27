@@ -6,5 +6,5 @@ end
 
 use Rack::MethodOverride
 use HabitsController
-use UserController
+use UsersController
 run ApplicationController
