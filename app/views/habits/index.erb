@@ -1,4 +1,4 @@
-<h1>Your Habits</h1>
+<h2>Your Habits</h2>
 
     <% @habits.each do |habit| %>
         <li><a href="/habits/<%= habit.id %>"><%= habit.name %></a> - Started on: <%= habit.date %><br></li><br><br>
