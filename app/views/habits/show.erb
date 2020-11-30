@@ -1,25 +1,11 @@
-<h1>Habit Details</h1>
-
-<br>
-
-<h2><%= @habit.name %></h2>
-
-<br>
-
+<h3>Habit Details</h3>
+<p><b>Habit:</b> <%= @habit.name %></p>
 <p><b>Date Created:</b> <%= @habit.date %></p>
-<p><b>Description:</b> <%= @habit.description %></p>
+<p><b>Description:</b> <%= @habit.description %></p><br>
 
-<br><%if @habit.user_id == current_user.id%><br>
+<a href="/habits/<%=@habit.id%>/edit">Edit Habit</a><br><br>
 
-<a href="/habits/<%= @habit.id %>/edit">Edit Habit</a>
-
-<br>
-
-<form action="/habits/<%= @habit.id %>/delete" method="POST">
-    <input type="hidden" id="hidden" name="_method" value="DELETE">
+<form method="POST" action="/habits/<%=@habit.id%>/delete">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
     <input type="submit" value="Delete Habit">
 </form>
-
-<%end%>
-
-<br><br>

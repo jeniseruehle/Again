@@ -2,19 +2,30 @@ class HabitsController < ApplicationController
 
     #INDEX
     get '/habits' do
-        @habits = Habit.all #get all habits from db
+        @habits = current_user.habits
         erb :"/habits/index"
     end
 
     #CREATE
     get '/habits/new' do
         if logged_in?
+            @current_user
             erb :"/habits/new"
         else
             flash[:error] = "You must log in to create a new habit."
             redirect "/"
         end
     end
+
+    post '/habits' do
+        @habit = current_user.habits.create(name: params[:name], date: params[:date], description: params[:description])
+        if @habit.save
+            redirect "/habits"
+        else
+            flash[:error] = "Please fill out all fields to create your habit."
+            redirect '/habits/new'
+        end
+    end 
 
     #READ
     get '/habits/:id' do
@@ -33,16 +44,6 @@ class HabitsController < ApplicationController
         end
     end
 
-    post '/habits' do
-        @habit = Habit.create(name: params[:name], date: params[:date], description: params[:description])
-        if @habit.save
-            redirect "/habits"
-        else
-            flash[:error] = "Please fill out all fields to create your habit."
-            redirect '/habits/new'
-        end
-    end 
-
     patch '/habits/:id' do
         @habit = Habit.find_by_id(params[:id])
         @habit.update(name: params[:name], date: params[:date], description: params[:description])
@@ -53,7 +54,11 @@ class HabitsController < ApplicationController
     #DELETE
     delete '/habits/:id/delete' do
         @habit = Habit.find(params[:id])
-        @habit.destroy
-        redirect '/habits'
+        if @habit && @habit.user == current_user
+            @habit.destroy
+            redirect '/habits'
+        else 
+            redirect "/"
+        end
     end
 end

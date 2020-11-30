@@ -5,12 +5,12 @@ class UsersController < ApplicationController
     end
 
     post '/login' do
-        user = User.find_by(email: params[:email])
+        user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
             session[:user_id] = user.id
-            redirect 'users/#{user.id}'
+            redirect '/habits'
         else
-            flash[:error] = "Either email or password incorrect, please try again."
+            flash[:error] = "Either username or password incorrect, please try again."
             redirect '/login'
         end
     end
@@ -19,16 +19,22 @@ class UsersController < ApplicationController
         erb :'/users/signup'
     end
 
-    get '/users/:id' do
-        @user = User.find_by(id: params[:id])
-        erb :'/users/show'
+    post '/signup' do
+        if params[:username] == "" || params[:email] == "" || params[:password] == ""
+            redirect "/signup"
+        else
+            @user = User.new(params)
+            @user.save
+            session[:user_id] = @user.id
+            redirect "/habits"
+        end
     end
-    
-    post '/users' do
-        @user = User.create(params)
-        session[:user_id] = @user.id
-        redirect "/users/#{@user.id}"
-    end
+
+    # get '/users/:id' do
+    #     @habits = Habit.All 
+    #     current_user.id = params[:id]
+    #     erb :'/users/show'
+    # end
 
     get '/logout' do
         if logged_in?
