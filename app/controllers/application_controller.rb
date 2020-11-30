@@ -25,12 +25,12 @@ class ApplicationController < Sinatra::Base
         end
 
         def current_user
-            User.find_by(id: session[:user_id])
+           @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
         end
 
-        def permission?(habit)
-            habit.user == current_user
-        end
+        # def permission?(habit)
+        #     habit.user == current_user
+        # end
     end 
 
 end

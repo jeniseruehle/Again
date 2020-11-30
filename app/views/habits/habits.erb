@@ -1,9 +1,0 @@
-<h1>Your Habits</h1>
-
-    <% @habits.each do |habit| %>
-        <li><a href="/habits/<%= habit.id %>"><%= habit.name %></a> started on: <%= habit.date %> description: <%= habit.description %></li>
-        <% end %>
-
-<a href="/habits/new">Create a new habit.</a><br><br>
-
-<a href="/logout">Logout</a>

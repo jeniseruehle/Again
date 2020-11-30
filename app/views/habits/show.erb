@@ -1,5 +1,3 @@
-<% if permission?(@habit) %>
-
 <h1>Habit Details</h1>
 
 <br>
@@ -11,7 +9,7 @@
 <p><b>Date Created:</b> <%= @habit.date %></p>
 <p><b>Description:</b> <%= @habit.description %></p>
 
-<br>
+<br><%if @habit.user_id == current_user.id%><br>
 
 <a href="/habits/<%= @habit.id %>/edit">Edit Habit</a>
 
@@ -22,6 +20,6 @@
     <input type="submit" value="Delete Habit">
 </form>
 
-<% end %>
+<%end%>
 
 <br><br>
