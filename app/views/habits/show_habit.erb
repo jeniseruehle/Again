@@ -1,3 +1,5 @@
+<% if permission?(@habit) %>
+
 <h1>Habit Details</h1>
 
 <br>
@@ -20,7 +22,6 @@
     <input type="submit" value="Delete Habit">
 </form>
 
-<br>
+<% end %>
 
-<a href="/habits">View All Habits</a>
-#logout
+<br><br>

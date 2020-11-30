@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
 
     get '/login' do
-        erb :'/users/login'
+        erb :login
     end
 
     post '/login' do
-        @user = User.find_by(email: params[:email])
-        if @user && @user.authenticate(params[:password])
-            session[:user_id] = @user.id
+        user = User.find_by(email: params[:email])
+        if user && user.authenticate(params[:password])
+            session[:user_id] = user.id
             redirect 'users/#{user.id}'
         else
             flash[:error] = "Either email or password incorrect, please try again."

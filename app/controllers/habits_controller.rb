@@ -2,12 +2,8 @@ class HabitsController < ApplicationController
 
     #INDEX
     get '/habits' do
-        # if logged_in?
-            @habits = Habit.all
-            erb :"/habits/habits"
-        # else
-        #     redirect '/login'
-        # end
+        @habits = Habit.all #get all habits from db
+        erb :"/habits/habits"
     end
 
     #CREATE
@@ -35,7 +31,7 @@ class HabitsController < ApplicationController
         if !logged_in?
             redirect '/login'
         else
-            @habit = Habit.find(params[:id])
+            @habit = Habit.find_by_id(params[:id])
             erb :'/habits/show_habit'
         end
     end
@@ -47,7 +43,7 @@ class HabitsController < ApplicationController
             redirect '/habits/edit_habit'
         else
             flash[:error] = "Your are not authorized to edit this habit."
-            redirect '/habits'
+            redirect "/habits"
         end
     end
 
