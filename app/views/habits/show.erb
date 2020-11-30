@@ -3,7 +3,9 @@
 <p><b>Date Created:</b> <%= @habit.date %></p>
 <p><b>Description:</b> <%= @habit.description %></p><br>
 
-<a href="/habits/<%=@habit.id%>/edit">Edit Habit</a><br><br>
+<form method="get" action="/habits/<%=@habit.id%>/edit">
+<input type="submit" value="Edit Habit">
+</form><br><br><br>
 
 <form method="POST" action="/habits/<%=@habit.id%>/delete">
     <input id="hidden" type="hidden" name="_method" value="DELETE">

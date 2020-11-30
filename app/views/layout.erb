@@ -14,19 +14,17 @@
             <% if flash[:error] %>
             <h2 style="color:red;"><%=flash[:error]%></h2>
             <% end %>
-
-            <div class="nav">
-            <% if logged_in? %>
-            <a href="/habits">Your Habits</a> 
-            <a href="/habits/new">New Habit</a> 
-            <a href="/logout">Logout</a>
-            <br></div>
-            <% end %>
             
                 <%= yield %>
 
                 <footer>
-                    <small>&copy; 2020 <strong>Again Habit Tracker</strong></small>
+                    <small>&copy; 2020 <strong>Again Habit Tracker</strong>&nbsp; &diams;
+                    &nbsp;<% if logged_in? %>
+                    <a href="/habits">Your Habits</a> | 
+                    <a href="/habits/new">New Habit</a> | 
+                    <a href="/logout">Logout</a>
+                    <br></div>
+                    <% end %></small>
                 </footer>
 
             </div>
