@@ -30,12 +30,6 @@ class UsersController < ApplicationController
         end
     end
 
-    # get '/users/:id' do
-    #     @habits = Habit.All 
-    #     current_user.id = params[:id]
-    #     erb :'/users/show'
-    # end
-
     get '/logout' do
         if logged_in?
             session.clear
