@@ -9,7 +9,6 @@ class HabitsController < ApplicationController
     #CREATE
     get '/habits/new' do
         if logged_in?
-            @current_user
             erb :"/habits/new"
         else
             flash[:error] = "You must log in to create a new habit."
@@ -47,7 +46,6 @@ class HabitsController < ApplicationController
     patch '/habits/:id' do
         @habit = Habit.find_by_id(params[:id])
         @habit.update(name: params[:name], date: params[:date], description: params[:description])
-        @habit.save
         redirect "/habits/#{@habit.id}"
     end
 
